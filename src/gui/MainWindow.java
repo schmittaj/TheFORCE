@@ -259,6 +259,10 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		itm6.addActionListener(this);
 		JMenuItem itm7 = new JMenuItem("Report Creator");
 		itm7.addActionListener(this);
+		JMenu menu4 = new JMenu("About");
+		JMenuItem item8 = new JMenuItem("About");
+		item8.addActionListener(this);
+		menu4.add(item8);
 		menu1.add(itm1);
 		menu1.add(setDBalt);
 		menu1.add(itm2);
@@ -274,6 +278,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		mBar.add(menu1);
 		mBar.add(menu2);
 		mBar.add(menu3);
+		mBar.add(menu4);
 	}
 
 	/**
@@ -427,6 +432,27 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 			if(e.getActionCommand().equals("Add Reader to Database"))
 			{
 				readAdd.setVisible(true);
+			}
+			if(e.getActionCommand().equals("About"))
+			{
+				JOptionPane.showMessageDialog(null,"The FORCE (Filled Out Reading Cards Entered) is a database front end\n" + 
+						"for a SQLite database for tracking and doing statistics on participants in the summer\n" + 
+						"reading program that is run by the Sun Prairie Public Library.\n" + 
+						"Souce code can be found at: https://github.com/schmittaj/TheFORCE\n" + 
+						"Copyright (C) 2019  Anthony Schmitt (schmittaj@gmail.com)\n" + 
+						"\n" + 
+						"This program is free software: you can redistribute it and/or modify\n" + 
+						"it under the terms of the GNU General Public License as published by\n" + 
+						"the Free Software Foundation, either version 3 of the License, or\n" + 
+						"(at your option) any later version.\n" + 
+						"\n" + 
+						"This program is distributed in the hope that it will be useful,\n" + 
+						"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" + 
+						"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" + 
+						"GNU General Public License for more details.\n" + 
+						"\n" + 
+						"You should have received a copy of the GNU General Public License\n" + 
+						"along with this program.  If not, see <https://www.gnu.org/licenses/>.\n","About",JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 		else
