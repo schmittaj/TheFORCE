@@ -1847,6 +1847,7 @@ public class KidView extends JFrame implements ActionListener, DatabaseChangeLis
 	 */
 	public void keyPressed(KeyEvent e) 
 	{
+		
 	}
 
 	/**

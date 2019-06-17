@@ -32,7 +32,7 @@ import backend.*;
  * @author Anthony Schmitt
  *
  */
-public class MergeSimpleWindow  extends JFrame implements ActionListener, KeyListener
+public class MergeSimpleWindow  extends JFrame implements ActionListener, KeyListener, DatabaseChangeListener
 {
 
 	private DBHandler dbFriend;
@@ -165,9 +165,9 @@ public class MergeSimpleWindow  extends JFrame implements ActionListener, KeyLis
 				dbFriend.executeUpdate("UPDATE Children SET most_recent_" + myTable.toLowerCase() + " = " + withIndex + " WHERE most_recent_" + myTable.toLowerCase() + " = " + replaceIndex + ";");
 				dbFriend.executeUpdate("UPDATE Program_Data SET " + myTable.toLowerCase() + "_id = " + withIndex + " WHERE " + myTable.toLowerCase() + "_id = " + replaceIndex + ";");
 				dbFriend.executeUpdate("DELETE FROM " + myTable + " WHERE id = " + replaceIndex + ";");
-				dbcli.notifyChange();
 				JOptionPane.showMessageDialog(null, replaceThis.getSelectedItem() + " replaced with " + withThis.getSelectedItem(), "Items Replaced", JOptionPane.INFORMATION_MESSAGE);
 				this.setVisible(false);
+				dbcli.notifyChange();
 			}
 			else
 			{
@@ -208,6 +208,8 @@ public class MergeSimpleWindow  extends JFrame implements ActionListener, KeyLis
 			replaceList[a] = myList[a][1];
 			withList[a] = myList[a][1];
 		}
+		topPanel.remove(replaceThis);
+		bottomPanel.remove(withThis);
 		replaceThis = new JComboBox<String>(replaceList);
 		withThis = new JComboBox<String>(withList);
 		topPanel.add(replaceThis, BorderLayout.CENTER);
@@ -222,5 +224,13 @@ public class MergeSimpleWindow  extends JFrame implements ActionListener, KeyLis
 	{
 		update();
 		this.setVisible(true);
+	}
+
+	/**
+	 * Handles when the database has changed
+	 */
+	public void databaseChanged() 
+	{
+		update();
 	}
 }

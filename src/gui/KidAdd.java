@@ -409,8 +409,8 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener
 		cancel.addActionListener(this);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1,2));
-		buttonPanel.add(cancel);
 		buttonPanel.add(add);
+		buttonPanel.add(cancel);
 		
 		this.setLayout(new BorderLayout());
 		this.add(mainPanel, BorderLayout.CENTER);

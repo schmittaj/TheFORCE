@@ -159,6 +159,9 @@ public class CheckInWindow extends JFrame implements ActionListener, KeyListener
 
 		
 		highestSpinner.setValue(result[0][6]); //highest level
+		
+		uncheckBoxes();
+		
 		if(Integer.parseInt(result[0][7]) == 1)
 		{
 			ec1.setSelected(true);
@@ -203,6 +206,24 @@ public class CheckInWindow extends JFrame implements ActionListener, KeyListener
 		{
 			poolPass.setSelected(true);
 		}
+	}
+	
+	/**
+	 * Un-checks all the check boxes
+	 */
+	private void uncheckBoxes()
+	{	
+		ec1.setSelected(false);
+		ec2.setSelected(false);
+		ec3.setSelected(false);
+		ec4.setSelected(false);
+		ec5.setSelected(false);
+		ec6.setSelected(false);
+		ec7.setSelected(false);
+		ec8.setSelected(false);
+		ec9.setSelected(false);
+		ec10.setSelected(false);
+		poolPass.setSelected(false);
 	}
 	
 	/**

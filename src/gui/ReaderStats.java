@@ -52,9 +52,9 @@ public class ReaderStats extends JFrame implements ActionListener, KeyListener
 		this.mainWindow = mw;
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		int height = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3));
-		int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2));
+		int width = (int) ((Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3)*2);
 		this.setSize(width, height);
-		this.setLocation((int) ((Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3)), (int) ((Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)));
+		this.setLocation((int) ((Toolkit.getDefaultToolkit().getScreenSize().getWidth()/6)), (int) ((Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)));
 		
 		databaseCheckEntry();
 

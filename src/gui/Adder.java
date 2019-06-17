@@ -181,10 +181,10 @@ public class Adder extends JFrame implements ActionListener, KeyListener
 					}
 				}
 				
-				for(int a = 0; a < similarItems.size(); a++)
+				/*for(int a = 0; a < similarItems.size(); a++)
 				{
 					System.out.println(similarItems.get(a)[1]);
-				}
+				}*/
 				JLabel kidsMessage = new JLabel("Are you sure that the entered " + myTable + " is not one of these already in the database?");
 				
 				JRadioButton[] choices = new JRadioButton[similarItems.size()+1];
@@ -244,10 +244,10 @@ public class Adder extends JFrame implements ActionListener, KeyListener
 						JOptionPane.showMessageDialog(null, "OK", "No Action Required", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
-				else
-				{
-					JOptionPane.showMessageDialog(null,"You must enter something","Blank entry", JOptionPane.ERROR_MESSAGE);
-				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null,"You must enter something","Blank entry", JOptionPane.ERROR_MESSAGE);
 			}
 			if(e.getActionCommand().equals("Cancel"))
 			{

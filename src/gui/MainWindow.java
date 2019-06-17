@@ -204,7 +204,9 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		cityAdd = new Adder(dbFriend, this, dbcli,"City Adder",Queries.ALL_CITIES_PL_IDS, Queries.ALL_CITIES_PL_IDS_COL_LEN,"City");
 		schoolAdd = new Adder(dbFriend, this, dbcli,"School/Daycare Adder",Queries.ALL_SCHOOLS_PL_IDS, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN,"School");
 		mergeSchoolWin = new MergeSimpleWindow(dbFriend, this, dbcli, "Merge Schools", Queries.ALL_SCHOOLS_PL_IDS_ALPHA, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN, "School");
+		dbcli.addListener(mergeSchoolWin);
 		mergeCityWin = new MergeSimpleWindow(dbFriend, this, dbcli, "Merge Cities", Queries.ALL_CITIES_PL_IDS_ALPHA, Queries.ALL_CITIES_PL_IDS_COL_LEN,"City");
+		dbcli.addListener(mergeCityWin);
 		readStat = new ReaderStats(dbFriend,this);
 		quickStat = new QuickStatWindow(dbFriend,this);
 		quickStat.setVisible(false);
@@ -468,7 +470,8 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 	private void doBackup()
 	{
 		String dbfile = dbPath.substring(dbPath.lastIndexOf('\\')+1);
-		if(!dbfile.toLowerCase().contains("test"))
+		//System.out.println(dbfile);
+		if(!dbfile.toLowerCase().contains("test") || !dbfile.toLowerCase().contains(".bak"))
 		{
 			Date d = new Date(System.currentTimeMillis());
 			int year = d.getYear()+1900;
