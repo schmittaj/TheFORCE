@@ -33,9 +33,8 @@ import javax.swing.border.*;
  * @author Anthony Schmitt
  *
  */
-public class RegistrationWindow  extends JFrame implements ActionListener, KeyListener
+public class RegistrationWindow  extends JFrame implements ActionListener, KeyListener, DatabaseChangeListener
 {
-	//TODO implement DCL?
 	//TODO Check grade against age to flag any possible input errors
 	private DBHandler dbFriend;
 	private String[][] schools, grades, cities, programs;
@@ -47,6 +46,7 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 	private DatabaseChangeListenerImplementer dbcli;
 	private int width, height;
 	private SecretMenuToggle mainWindow;
+	private JPanel schoolPanel, cityPanel;
 	
 	/**
 	 * Constructor
@@ -169,7 +169,7 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 		programBox.setPreferredSize(new Dimension(200,30));
 		programPanel.add(programBox);
 		mainPanel.add(programPanel);
-		JPanel schoolPanel = new JPanel();
+		schoolPanel = new JPanel();
 		schoolPanel.setLayout(new FlowLayout());
 		JLabel school = new JLabel("School/Daycare:");
 		school.setHorizontalAlignment(JLabel.RIGHT);
@@ -191,7 +191,7 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 		gradeBox.setPreferredSize(new Dimension(200,30));
 		gradePanel.add(gradeBox);
 		mainPanel.add(gradePanel);
-		JPanel cityPanel = new JPanel();
+		cityPanel = new JPanel();
 		cityPanel.setLayout(new FlowLayout());
 		JLabel city = new JLabel("City:");
 		city.setHorizontalAlignment(JLabel.RIGHT);
@@ -356,7 +356,11 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 	 */
 	public void updateDatabaseConnection(DBHandler dbh)
 	{
+		// we're going to assume that grade and program will not change and be uniform across databases
 		dbFriend = dbh;
+		schoolPanel.remove(schoolBox);
+		cityPanel.remove(cityBox);
+		
 		schools = dbFriend.query2DstringRet(Queries.ALL_SCHOOLS_PL_IDS_ALPHA, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN);
 		schoolsIDtoName = new Hashtable<String, String>();
 		schoolsNameToID = new Hashtable<String, String>();
@@ -366,7 +370,7 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 			schoolsNameToID.put(schools[a][1], schools[a][0]);
 		}
 		schoolsNameToID.put("None", "-1");
-		grades = dbFriend.query2DstringRet(Queries.ALL_GRADES_PL_IDS, Queries.ALL_GRADES_PL_IDS_COL_LEN);
+		/*grades = dbFriend.query2DstringRet(Queries.ALL_GRADES_PL_IDS, Queries.ALL_GRADES_PL_IDS_COL_LEN);
 		gradesIDtoName = new Hashtable<String, String>();
 		gradesNameToID = new Hashtable<String, String>();
 		for(int a = 0; a < grades.length; a++)
@@ -376,7 +380,7 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 		}
 		gradesNameToID.put("None", "-1");
 		String[][] gradeThing = {{"-1","None"}};
-		grades = Constants.addCommonEntities(gradeThing, grades);
+		grades = Constants.addCommonEntities(gradeThing, grades);*/
 		cities = dbFriend.query2DstringRet(Queries.ALL_CITIES_PL_IDS_ALPHA, Queries.ALL_CITIES_PL_IDS_COL_LEN);
 		citiesIDtoName = new Hashtable<String, String>();
 		citiesNameToID = new Hashtable<String, String>();
@@ -387,26 +391,26 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 		}
 		schools = Constants.addCommonEntities(Constants.COMMON_SCHOOLS, schools);
 		cities = Constants.addCommonEntities(Constants.COMMON_CITIES, cities);
-		programs = dbFriend.query2DstringRet(Queries.ALL_PROGRAMS_PL_IDS, Queries.ALL_PROGRAMS_PL_IDS_COL_LEN);
+		/*programs = dbFriend.query2DstringRet(Queries.ALL_PROGRAMS_PL_IDS, Queries.ALL_PROGRAMS_PL_IDS_COL_LEN);
 		programsIDtoName = new Hashtable<String, String>();
 		programsNamesToID = new Hashtable<String, String>();
 		for(int a = 0; a < programs.length; a++)
 		{
 			programsIDtoName.put(programs[a][0], programs[a][1]);
 			programsNamesToID.put(programs[a][1], programs[a][0]);
-		}
+		}*/
 		String[] schoolList = new String[schools.length];
 		for(int a = 0; a < schools.length; a++)
 		{
 			schoolList[a] = schools[a][1];
 		}
 		schoolBox = new JComboBox<String>(schoolList);
-		String[] gradeList = new String[grades.length];
+		/*String[] gradeList = new String[grades.length];
 		for(int a = 0; a < grades.length; a++)
 		{
 			gradeList[a] = grades[a][1];
 		}
-		gradeBox = new JComboBox<String>(gradeList);
+		gradeBox = new JComboBox<String>(gradeList);*/
 		String[] cityList = new String[cities.length];
 		for(int a = 0; a < cities.length; a++)
 		{
@@ -418,9 +422,20 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 		{
 			programList[a] = programs[a][1];
 		}
-		programBox = new JComboBox<String>(programList);
+		//programBox = new JComboBox<String>(programList);
+		
+		schoolBox.setSize(width/2,20);
+		schoolBox.setBorder(new EmptyBorder(0,0,0,10));
+		schoolBox.setPreferredSize(new Dimension(200,30));
+		schoolPanel.add(schoolBox);
+		
+		cityBox.setSize(width/2, 20);
+		cityBox.setBorder(new EmptyBorder(0,0,0,10));
+		cityBox.setPreferredSize(new Dimension(200,30));
+		cityPanel.add(cityBox);
+		
 		this.paintAll(this.getGraphics());
-		//TODO may have to remove and re-add components 
+
 	}
 	
 	/**
@@ -461,5 +476,66 @@ public class RegistrationWindow  extends JFrame implements ActionListener, KeyLi
 			cityBox.setSelectedIndex(0);
 			programBox.setSelectedIndex(0);
 		}
+	}
+
+
+
+	/**
+	 * Handles changes in database
+	 */
+	public void databaseChanged() 
+	{
+		schoolPanel.remove(schoolBox);
+		cityPanel.remove(cityBox);
+		
+		schools = dbFriend.query2DstringRet(Queries.ALL_SCHOOLS_PL_IDS_ALPHA, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN);
+		schoolsIDtoName = new Hashtable<String, String>();
+		schoolsNameToID = new Hashtable<String, String>();
+		for(int a = 0; a < schools.length; a++)
+		{
+			schoolsIDtoName.put(schools[a][0], schools[a][1]);
+			schoolsNameToID.put(schools[a][1], schools[a][0]);
+		}
+		schoolsNameToID.put("None", "-1");
+		cities = dbFriend.query2DstringRet(Queries.ALL_CITIES_PL_IDS_ALPHA, Queries.ALL_CITIES_PL_IDS_COL_LEN);
+		citiesIDtoName = new Hashtable<String, String>();
+		citiesNameToID = new Hashtable<String, String>();
+		for(int a = 0; a < cities.length; a++)
+		{
+			citiesIDtoName.put(cities[a][0], cities[a][1]);
+			citiesNameToID.put(cities[a][1], cities[a][0]);
+		}
+		schools = Constants.addCommonEntities(Constants.COMMON_SCHOOLS, schools);
+		cities = Constants.addCommonEntities(Constants.COMMON_CITIES, cities);
+		String[] schoolList = new String[schools.length];
+		for(int a = 0; a < schools.length; a++)
+		{
+			schoolList[a] = schools[a][1];
+		}
+		schoolBox = new JComboBox<String>(schoolList);
+		String[] cityList = new String[cities.length];
+		for(int a = 0; a < cities.length; a++)
+		{
+			cityList[a] = cities[a][1];
+		}
+		cityBox = new JComboBox<String>(cityList);
+		String[] programList = new String[programs.length];
+		for(int a = 0; a < programList.length; a++)
+		{
+			programList[a] = programs[a][1];
+		}
+		
+		schoolBox.setSize(width/2,20);
+		schoolBox.setBorder(new EmptyBorder(0,0,0,10));
+		schoolBox.setPreferredSize(new Dimension(200,30));
+		schoolPanel.add(schoolBox);
+		
+		cityBox.setSize(width/2, 20);
+		cityBox.setBorder(new EmptyBorder(0,0,0,10));
+		cityBox.setPreferredSize(new Dimension(200,30));
+		cityPanel.add(cityBox);
+		
+		this.paintAll(this.getGraphics());
+	
 	}
 }

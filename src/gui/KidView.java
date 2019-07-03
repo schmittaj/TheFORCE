@@ -85,6 +85,7 @@ public class KidView extends JFrame implements ActionListener, DatabaseChangeLis
 		this.setTitle("View Reader");
 		this.mainWindow = mainWin;
 		regWin = new RegistrationWindow(dbFriend,"1",dbcli,mainWindow);
+		dbcli.addListener(regWin);
 		cinWin = new CheckInWindow(dbFriend,"1",dbcli,mainWindow);
 		rmw = new ReaderMergeWindow(mainWindow,dbFriend,dbcli);
 		rsw = new ReaderSplitWindow(mainWindow, dbFriend, dbcli);

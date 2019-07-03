@@ -167,7 +167,7 @@ public class ReaderStats extends JFrame implements ActionListener, KeyListener
 		String[] pastVals = {"0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 		if(Constants.regularDB)
 		{
-			getDiffFromLastWeek();
+			pastVals = getDiffFromLastWeek();
 		}
 		JLabel diffregLabel = new JLabel("Registrants:");
 		JLabel diffreadLabel = new JLabel("Readers:");
@@ -375,59 +375,64 @@ public class ReaderStats extends JFrame implements ActionListener, KeyListener
 	{
 		String[] output = {"0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 		String[][] weekStats = dbFriend.query2DstringRet(Queries.ALL_WEEKLY_STATS, Queries.ALL_WEEKLY_STATS_COL_LEN);
+	
 		Date d = new Date(System.currentTimeMillis());
 		int thisYear = d.getYear() + 1900;
-		int thisWeekIndex = weekStats.length-1;
-		int lastWeekIndex = weekStats.length-2;
-		
-		if(weekStats[thisWeekIndex][0].contains(""+thisYear))
+		if(weekStats != null)
 		{
-			if(weekStats.length > 1 && weekStats[lastWeekIndex][0].contains(""+thisYear))
+			int thisWeekIndex = weekStats.length-1;
+			int lastWeekIndex = weekStats.length-2;
+			
+			if(weekStats[thisWeekIndex][0].contains(""+thisYear))
 			{
-				String val0 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 0;")[0];
-				String val1 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 1;")[0];
-				String val2 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 2;")[0];
-				String val3 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 3;")[0];
-				String val4 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 4;")[0];
-				String val5 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 5;")[0];
-				String val6 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 6;")[0];
-				String val7 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 7;")[0];
-				String val8 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 8;")[0];
-				String val9 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 9;")[0];
-				String val10 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 10;")[0];
-				String valRead = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = "+ thisYear + " AND highest_level_normal > 0;")[0];
-				
-				output[0] = ""+ (Integer.parseInt(val0)-Integer.parseInt(weekStats[lastWeekIndex][1]));
-				output[1] = ""+ (Integer.parseInt(valRead)-Integer.parseInt(weekStats[lastWeekIndex][2]));
-				output[2] = ""+ (Integer.parseInt(val10)-Integer.parseInt(weekStats[lastWeekIndex][3]));
-				output[3] = ""+ (Integer.parseInt(val0)-Integer.parseInt(weekStats[lastWeekIndex][1]));
-				output[4] = ""+ (Integer.parseInt(val1)-Integer.parseInt(weekStats[lastWeekIndex][4]));
-				output[5] = ""+ (Integer.parseInt(val2)-Integer.parseInt(weekStats[lastWeekIndex][5]));
-				output[6] = ""+ (Integer.parseInt(val3)-Integer.parseInt(weekStats[lastWeekIndex][6]));
-				output[7] = ""+ (Integer.parseInt(val4)-Integer.parseInt(weekStats[lastWeekIndex][7]));
-				output[8] = ""+ (Integer.parseInt(val5)-Integer.parseInt(weekStats[lastWeekIndex][8]));
-				output[9] = ""+ (Integer.parseInt(val6)-Integer.parseInt(weekStats[lastWeekIndex][9]));
-				output[10] = ""+ (Integer.parseInt(val7)-Integer.parseInt(weekStats[lastWeekIndex][10]));
-				output[11] = ""+ (Integer.parseInt(val8)-Integer.parseInt(weekStats[lastWeekIndex][11]));
-				output[12] = ""+ (Integer.parseInt(val9)-Integer.parseInt(weekStats[lastWeekIndex][12]));
-				output[13] = ""+ (Integer.parseInt(val10)-Integer.parseInt(weekStats[lastWeekIndex][13]));
-			}
-			else
-			{
-				output[0] = weekStats[thisWeekIndex][1];
-				output[1] = weekStats[thisWeekIndex][2];
-				output[2] = weekStats[thisWeekIndex][3];
-				output[3] = weekStats[thisWeekIndex][4];
-				output[4] = weekStats[thisWeekIndex][5];
-				output[5] = weekStats[thisWeekIndex][6];
-				output[6] = weekStats[thisWeekIndex][7];
-				output[7] = weekStats[thisWeekIndex][8];
-				output[8] = weekStats[thisWeekIndex][9];
-				output[9] = weekStats[thisWeekIndex][10];
-				output[10] = weekStats[thisWeekIndex][11];
-				output[11] = weekStats[thisWeekIndex][12];
-				output[12] = weekStats[thisWeekIndex][13];
-				output[12] = weekStats[thisWeekIndex][14];
+				if(weekStats.length > 1 && weekStats[lastWeekIndex][0].contains(""+thisYear))
+				{
+					String val0 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 0;")[0];
+					String val1 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 1;")[0];
+					String val2 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 2;")[0];
+					String val3 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 3;")[0];
+					String val4 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 4;")[0];
+					String val5 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 5;")[0];
+					String val6 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 6;")[0];
+					String val7 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 7;")[0];
+					String val8 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 8;")[0];
+					String val9 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 9;")[0];
+					String val10 = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + " AND highest_level_normal = 10;")[0];
+					String valRead = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = "+ thisYear + " AND highest_level_normal > 0;")[0];
+					String valReg = dbFriend.query1DstringRet("SELECT count(*) FROM Program_Data WHERE year = " + thisYear + ";")[0];
+					
+					output[0] = ""+ (Integer.parseInt(valReg)-Integer.parseInt(weekStats[lastWeekIndex][1]));
+					output[1] = ""+ (Integer.parseInt(valRead)-Integer.parseInt(weekStats[lastWeekIndex][2]));
+					output[2] = ""+ (Integer.parseInt(val10)-Integer.parseInt(weekStats[lastWeekIndex][3]));
+					output[3] = ""+ (Integer.parseInt(val0)-Integer.parseInt(weekStats[lastWeekIndex][1]));
+					output[4] = ""+ (Integer.parseInt(val1)-Integer.parseInt(weekStats[lastWeekIndex][4]));
+					output[5] = ""+ (Integer.parseInt(val2)-Integer.parseInt(weekStats[lastWeekIndex][5]));
+					output[6] = ""+ (Integer.parseInt(val3)-Integer.parseInt(weekStats[lastWeekIndex][6]));
+					output[7] = ""+ (Integer.parseInt(val4)-Integer.parseInt(weekStats[lastWeekIndex][7]));
+					output[8] = ""+ (Integer.parseInt(val5)-Integer.parseInt(weekStats[lastWeekIndex][8]));
+					output[9] = ""+ (Integer.parseInt(val6)-Integer.parseInt(weekStats[lastWeekIndex][9]));
+					output[10] = ""+ (Integer.parseInt(val7)-Integer.parseInt(weekStats[lastWeekIndex][10]));
+					output[11] = ""+ (Integer.parseInt(val8)-Integer.parseInt(weekStats[lastWeekIndex][11]));
+					output[12] = ""+ (Integer.parseInt(val9)-Integer.parseInt(weekStats[lastWeekIndex][12]));
+					output[13] = ""+ (Integer.parseInt(val10)-Integer.parseInt(weekStats[lastWeekIndex][13]));
+				}
+				else
+				{
+					output[0] = weekStats[thisWeekIndex][1];
+					output[1] = weekStats[thisWeekIndex][2];
+					output[2] = weekStats[thisWeekIndex][3];
+					output[3] = weekStats[thisWeekIndex][4];
+					output[4] = weekStats[thisWeekIndex][5];
+					output[5] = weekStats[thisWeekIndex][6];
+					output[6] = weekStats[thisWeekIndex][7];
+					output[7] = weekStats[thisWeekIndex][8];
+					output[8] = weekStats[thisWeekIndex][9];
+					output[9] = weekStats[thisWeekIndex][10];
+					output[10] = weekStats[thisWeekIndex][11];
+					output[11] = weekStats[thisWeekIndex][12];
+					output[12] = weekStats[thisWeekIndex][13];
+					output[12] = weekStats[thisWeekIndex][14];
+				}
 			}
 		}
 		return output;
