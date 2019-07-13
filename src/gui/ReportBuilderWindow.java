@@ -305,7 +305,7 @@ public class ReportBuilderWindow extends JInternalFrame implements ActionListene
 	{
 		if(e.getActionCommand().equals("City"))
 		{
-			String[] cities = dbFriend.query1DstringRet(Queries.ALL_CITIES);
+			String[] cities = dbFriend.query1DstringRet(Queries.ALL_CITIES_ALPHA);
 			JComboBox<String> cityBox = new JComboBox<String>(cities);
 			JOptionPane.showMessageDialog(null,cityBox);
 			String currentText = limitArea.getText();
@@ -315,7 +315,7 @@ public class ReportBuilderWindow extends JInternalFrame implements ActionListene
 		
 		if(e.getActionCommand().equals("School"))
 		{
-			String[] schools = dbFriend.query1DstringRet(Queries.ALL_SCHOOLS);
+			String[] schools = dbFriend.query1DstringRet(Queries.ALL_SCHOOLS_ALPHA);
 			JComboBox<String> schoolBox = new JComboBox<String>(schools);
 			JOptionPane.showMessageDialog(null,schoolBox);
 			String currentText = limitArea.getText();
@@ -467,14 +467,9 @@ public class ReportBuilderWindow extends JInternalFrame implements ActionListene
 	{
 		cityHash = new Hashtable<String,String>();
 		schoolHash = new Hashtable<String,String>();
-		gradeHash = new Hashtable<String,String>();
-		String[][] grades2d = dbFriend.query2DstringRet(Queries.ALL_GRADES_PL_IDS, Queries.ALL_GRADES_PL_IDS_COL_LEN);
 		String[][] school2d = dbFriend.query2DstringRet(Queries.ALL_SCHOOLS_PL_IDS, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN);
 		String[][] city2d = dbFriend.query2DstringRet(Queries.ALL_CITIES_PL_IDS, Queries.ALL_CITIES_PL_IDS_COL_LEN);
-		for(int a = 0; a < grades2d.length; a++)
-		{
-			gradeHash.put(grades2d[a][1], grades2d[a][0]);
-		}
+		
 		for(int a = 0; a < school2d.length; a++)
 		{
 			schoolHash.put(school2d[a][1], school2d[a][0]);
@@ -483,6 +478,8 @@ public class ReportBuilderWindow extends JInternalFrame implements ActionListene
 		{
 			cityHash.put(city2d[a][1], city2d[a][0]);
 		}
+		
+		
 	}
 	/*
 	public void setVisible(boolean aFlag) 

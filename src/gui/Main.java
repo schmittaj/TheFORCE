@@ -26,7 +26,7 @@ package gui;
  * @author Anthony Schmitt
  *
  */
-public class Main 
+public class Main
 {
 
 	/**

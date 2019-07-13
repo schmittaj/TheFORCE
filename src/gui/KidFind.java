@@ -93,6 +93,7 @@ public class KidFind extends JInternalFrame implements ListSelectionListener, Ke
 		dbcli.addListener(viewer);
 		this.addKid = new KidAdd(dbFriend, mainWindow, dbcli);
 		addKid.setVisible(false);
+		dbcli.addListener(addKid);
 		this.setTitle("Find Readers");
 	}
 	

@@ -34,7 +34,7 @@ import backend.*;
  * @author Anthony Schmitt
  *
  */
-public class KidAdd extends JFrame implements ActionListener, KeyListener
+public class KidAdd extends JFrame implements ActionListener, KeyListener, DatabaseChangeListener
 {
 	protected DBHandler dbFriend;
 	protected JTextField firstName, lastName, parent, email;
@@ -50,6 +50,7 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener
 	private SecretMenuToggle mainWindow;
 	private int year;
 	protected DatabaseChangeListenerImplementer dbcli;
+	private JPanel mainPanel;
 	
 	/**
 	 * Constructor
@@ -183,7 +184,7 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener
 		alsoRegister = new JCheckBox("Register new Reader for this year's program?");
 		alsoRegister.addActionListener(this);
 		
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -1026,6 +1027,75 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener
 		String year = (String)dobYear.getSelectedItem();
 		output += month + "/" + day + "/" + year; 
 		return output;
+	}
+
+	public void databaseChanged() 
+	{
+		String[][] schools = dbFriend.query2DstringRet(Queries.ALL_SCHOOLS_PL_IDS_ALPHA, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN);
+		schoolHash = new Hashtable<String, String>();
+		for(int a = 0; a < schools.length; a++)
+		{
+			schoolHash.put(schools[a][1], schools[a][0]);
+		}
+		schoolHash.put("None", "-1");
+		schools = Constants.addCommonEntities(Constants.COMMON_SCHOOLS, schools);
+		String[][] grades = dbFriend.query2DstringRet(Queries.ALL_GRADES_PL_IDS, Queries.ALL_GRADES_PL_IDS_COL_LEN);
+		gradeHash = new Hashtable<String, String>();
+		for(int a = 0; a < grades.length; a++)
+		{
+			gradeHash.put(grades[a][1], grades[a][0]);
+		}
+		gradeHash.put("None", "-1");
+		String[][] noneEntry = {{"-1","None"}};
+		grades = Constants.addCommonEntities(noneEntry, grades);
+		String[][] cities = dbFriend.query2DstringRet(Queries.ALL_CITIES_PL_IDS_ALPHA, Queries.ALL_CITIES_PL_IDS_COL_LEN);
+		citiesHash = new Hashtable<String, String>();
+		for(int a = 0; a < cities.length; a++)
+		{
+			citiesHash.put(cities[a][1], cities[a][0]);
+		}
+		cities = Constants.addCommonEntities(Constants.COMMON_CITIES, cities);
+		
+		String[] schoolList = new String[schools.length];
+		for(int a = 0; a < schools.length; a++)
+		{
+			schoolList[a] = schools[a][1];
+		}
+		schoolBox = new JComboBox<String>(schoolList);
+		String[] cityList = new String[cities.length];
+		for(int a = 0; a < cities.length; a++)
+		{
+			cityList[a] = cities[a][1];
+		}
+		cityBox = new JComboBox<String>(cityList);
+		schoolBox.setEnabled(false);
+		cityBox.setEnabled(false);
+		
+		mainPanel.remove(schoolBox);
+		mainPanel.remove(cityBox);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		double yweight = 0.0;
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 11;
+		c.weightx = 1;
+		c.weighty = yweight;
+		c.insets = new Insets(0,0,0,10);
+		mainPanel.add(schoolBox,c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 13;
+		c.weightx = 1;
+		c.weighty = yweight;
+		c.insets = new Insets(0,0,0,10);
+		mainPanel.add(cityBox,c);
+		
+		this.paintAll(this.getGraphics());
+		
 	}
 	
 	

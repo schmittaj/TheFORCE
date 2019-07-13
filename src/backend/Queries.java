@@ -40,14 +40,22 @@ public class Queries
 	public static final String ALL_CITIES_PL_IDS_ALPHA = "SELECT * FROM City ORDER BY name;";
 	public static final int ALL_CITIES_PL_IDS_COL_LEN = 2;
 	public static final String ALL_CITIES = "SELECT name FROM City;";
+	public static final String ALL_CITIES_ALPHA = "SELECT name FROM City ORDER BY name;";
 	public static final String ALL_GRADES = "SELECT name FROM Grade;";
 	public static final String ALL_SCHOOLS = "SELECT name FROM School;";
+	public static final String ALL_SCHOOLS_ALPHA = "SELECT name FROM School ORDER BY name;";
 	public static final String ALL_GRADES_PL_IDS = "SELECT * FROM Grade;";
 	public static final String ALL_GRADES_PL_IDS_ALPHA = "SELECT * FROM Grade ORDER BY name;";
 	public static final int ALL_GRADES_PL_IDS_COL_LEN = 2;
 	public static final String ALL_PROGRAMS_PL_IDS = "SELECT * FROM Program;";
 	public static final int ALL_PROGRAMS_PL_IDS_COL_LEN = 2;
 	public static final String HIGHEST_CHILD_ID = "SELECT MAX(id) FROM Children;";
-	public static final String ALL_WEEKLY_STATS = "SELECT * FROM Weekly_Stats;";
-	public static final int ALL_WEEKLY_STATS_COL_LEN = 24;
+	public static final String ALL_WEEKLY_STATS = "SELECT * FROM Weekly_Stats WHERE program_id = -1;";
+	public static final int ALL_WEEKLY_STATS_COL_LEN = 25;
+	public static final String INFANT_WEEKLY_STATS = "SELECT * FROM Weekly_Stats WHERE program_id = 0;";
+	public static final int INFANT_WEEKLY_STATS_COL_LEN = 25;
+	public static final String CHILDREN_WEEKLY_STATS = "SELECT * FROM Weekly_Stats WHERE program_id = 1;";
+	public static final int CHILDREN_WEEKLY_STATS_COL_LEN = 25;
+	public static final String TEEN_WEEKLY_STATS = "SELECT * FROM Weekly_Stats WHERE program_id = 2;";
+	public static final int TEEN_WEEKLY_STATS_COL_LEN = 25;
 }

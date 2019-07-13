@@ -74,9 +74,13 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 			try 
 			{
 				BufferedReader dbLocRead = new BufferedReader(new FileReader(dbLocFile));
-				String location = dbLocRead.readLine().trim();
+				String location = dbLocRead.readLine();
+				if(location != null)
+				{
+					location = location.trim();
+				}
 				dbLocRead.close();
-				if(!location.isEmpty())
+				if(location != null && !location.isEmpty())
 				{
 					dbPath = location;
 					setDatabase();
@@ -201,6 +205,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		repBuildWin.setVisible(false);
 		readAdd = new KidAdd(dbFriend, this, dbcli);
 		readAdd.setVisible(false);
+		dbcli.addListener(readAdd);
 		cityAdd = new Adder(dbFriend, this, dbcli,"City Adder",Queries.ALL_CITIES_PL_IDS, Queries.ALL_CITIES_PL_IDS_COL_LEN,"City");
 		schoolAdd = new Adder(dbFriend, this, dbcli,"School/Daycare Adder",Queries.ALL_SCHOOLS_PL_IDS, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN,"School");
 		mergeSchoolWin = new MergeSimpleWindow(dbFriend, this, dbcli, "Merge Schools", Queries.ALL_SCHOOLS_PL_IDS_ALPHA, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN, "School");
