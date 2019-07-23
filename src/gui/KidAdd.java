@@ -821,6 +821,7 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener, Datab
 			alsoRegister.setSelected(false);
 			this.setVisible(false);
 		}
+		
 		if(alsoRegister.isSelected())
 		{
 			cityBox.setEnabled(true);
@@ -986,7 +987,7 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener, Datab
 		cityBox.setEnabled(false);
 		gradeBox.setEnabled(false);
 		
-		//(seems not) may have to remove then re add these to their parents
+		//TODO (seems not) may have to remove then re add these to their parents
 	}
 	
 	/**
@@ -1031,6 +1032,11 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener, Datab
 
 	public void databaseChanged() 
 	{
+		mainPanel.remove(schoolBox);
+		mainPanel.remove(cityBox);
+		//mainPanel.remove(cityLabel);
+		//mainPanel.remove(schoolLabel);
+		
 		String[][] schools = dbFriend.query2DstringRet(Queries.ALL_SCHOOLS_PL_IDS_ALPHA, Queries.ALL_SCHOOLS_PL_IDS_COL_LEN);
 		schoolHash = new Hashtable<String, String>();
 		for(int a = 0; a < schools.length; a++)
@@ -1068,15 +1074,23 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener, Datab
 			cityList[a] = cities[a][1];
 		}
 		cityBox = new JComboBox<String>(cityList);
+
 		schoolBox.setEnabled(false);
 		cityBox.setEnabled(false);
-		
-		mainPanel.remove(schoolBox);
-		mainPanel.remove(cityBox);
+
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
 		double yweight = 0.0;
+		
+		/*c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 11;
+		c.weightx = 1;
+		c.weighty = yweight;
+		c.insets = new Insets(0,10,0,0);
+		mainPanel.add(schoolLabel,c);
+		*/
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -1085,6 +1099,14 @@ public class KidAdd extends JFrame implements ActionListener, KeyListener, Datab
 		c.weighty = yweight;
 		c.insets = new Insets(0,0,0,10);
 		mainPanel.add(schoolBox,c);
+		
+		/*c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 13;
+		c.weightx = 1;
+		c.weighty = yweight;
+		c.insets = new Insets(0,10,0,0);
+		mainPanel.add(cityLabel,c);*/
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;

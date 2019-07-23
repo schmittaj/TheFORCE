@@ -59,6 +59,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 	private KidAdd readAdd;
 	private JCheckBoxMenuItem editProgramData, mergeReaders, splitReader;
 	private QuickStatWindow quickStat;
+	private DataDumpWindow ddWin;
 	
 	/**
 	 * Constructor.
@@ -109,6 +110,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.setAutoRequestFocus(true);
+		
 	}
 	
 	/**
@@ -138,6 +140,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 			mergeCityWin.updateDatabaseConnection(dbFriend);
 			readStat.updateDatabaseConnection(dbFriend);
 			quickStat.updateDatabaseConnection(dbFriend);
+			ddWin.updateDatabaseConnection(dbFriend);
 		}
 		else
 		{
@@ -216,6 +219,8 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		quickStat = new QuickStatWindow(dbFriend,this);
 		quickStat.setVisible(false);
 		this.add(quickStat);
+		ddWin = new DataDumpWindow(this, dbFriend);
+		ddWin.setVisible(false);
 	}
 
 	/**
@@ -269,6 +274,8 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		JMenu menu4 = new JMenu("About");
 		JMenuItem item8 = new JMenuItem("About");
 		item8.addActionListener(this);
+		JMenuItem dataDump = new JMenuItem("Download Year Data");
+		dataDump.addActionListener(this);
 		menu4.add(item8);
 		menu1.add(itm1);
 		menu1.add(setDBalt);
@@ -281,6 +288,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		menu3.add(itm5);
 		menu3.add(itm6);
 		menu3.add(itm7);
+		menu3.add(dataDump);
 		mBar = new JMenuBar();
 		mBar.add(menu1);
 		mBar.add(menu2);
@@ -460,6 +468,10 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 						"\n" + 
 						"You should have received a copy of the GNU General Public License\n" + 
 						"along with this program.  If not, see <https://www.gnu.org/licenses/>.\n","About",JOptionPane.INFORMATION_MESSAGE);
+			}
+			if(e.getActionCommand().equals("Download Year Data"))
+			{
+				ddWin.setVisible(true);
 			}
 		}
 		else
