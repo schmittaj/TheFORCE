@@ -323,7 +323,7 @@ public class MainWindow extends JFrame implements ActionListener, KeyListener, S
 		}
 		if(e.getActionCommand().equals("Set Database Path FileShare"))
 		{
-			File f = new File("\\\\10.17.101.88\\fileshare\\Youth Services");
+			File f = new File("");  //file share address goes here
 			FileSystemView fsv = FileSystemView.getFileSystemView();
 			f = fsv.getParentDirectory(f);
 			JFileChooser fileChooser = new JFileChooser();
